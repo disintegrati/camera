@@ -6,7 +6,7 @@ LedPin = 6
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LedPin, GPIO.OUT)
-GPIO.output(LedPin, GPIO.HIGH)
+GPIO.output(LedPin, GPIO.LOW)
 
 GPIO.setup(18,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
@@ -15,9 +15,10 @@ def blink():
         t_end = time.time() + 15
         while time.time() < t_end:
                         GPIO.output(LedPin, GPIO.LOW)
-                        time.sleep(0.1)
+                        time.sleep(0.5)
                         GPIO.output(LedPin, GPIO.HIGH)
-                        time.sleep(0.1)
+                        time.sleep(0.5)
+	GPIO.output(LedPin, GPIO.LOW)
 
 def destroy():
         GPIO.output(LedPin, GPIO.LOW)
