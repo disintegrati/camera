@@ -3,11 +3,13 @@ import RPi.GPIO as GPIO
 import time
 import os
 LedPin = 4
+StatusPin = 17
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LedPin, GPIO.OUT)
 GPIO.output(LedPin, GPIO.LOW)
-
+GPIO.setup(StatusPin, GPIO.OUT)
+GPIO.output(StatusPin, GPIO.LOW)
 GPIO.setup(18,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
 
@@ -19,6 +21,7 @@ def blink():
                         GPIO.output(LedPin, GPIO.HIGH)
                         time.sleep(0.3)
 			GPIO.output(LedPin, GPIO.LOW)
+	GPIO.output(StatusPin, GPIO.HIGH)
 #	destroy()
 def destroy():
         GPIO.output(LedPin, GPIO.LOW)
