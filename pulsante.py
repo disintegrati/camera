@@ -39,7 +39,7 @@ while True:
 		os.system("sh /home/pi/Desktop/camera//video.sh")
 		blink()
 #		destroy()
-		subprocess.call("sudo python ~/usbreset1/reset.py 046d:081d", shell=True)
+		subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
 
 	time.sleep(0.3)
 
