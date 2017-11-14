@@ -23,13 +23,11 @@ def blink():
                         time.sleep(0.3)
 			GPIO.output(LedPin, GPIO.LOW)
 	GPIO.output(StatusPin, GPIO.HIGH)
-#	destroy()
+
 def destroy():
         GPIO.output(LedPin, GPIO.LOW)
         GPIO.cleanup()
 
-#def reset():
-#	subprocess.call("sudo python ~/usbreset1/reset.py 046d:081d", shell=True)
 
 while True: 
 	GPIO.setmode(GPIO.BCM)
@@ -38,16 +36,10 @@ while True:
 		print("Bottone premuto")
 		os.system("sh /home/pi/Desktop/camera//video.sh")
 		blink()
-#		destroy()
+
 		subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
 
 	time.sleep(0.3)
 
  
-#if __name__ == '__main__':
-#	try:
-#		blink()
-#	except KeyboardInterrupt:
-#		destroy()
-
 

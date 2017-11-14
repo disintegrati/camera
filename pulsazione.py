@@ -1,7 +1,6 @@
 #!/bin/python
 import RPi.GPIO as GPIO
 import time
-import os
 LedPin = 6
 StatusPin = 17
 
@@ -23,25 +22,16 @@ def blink():
                         GPIO.output(LedPin, GPIO.HIGH)
                         time.sleep(0.5)
 	GPIO.output(LedPin, GPIO.LOW)
-#	GPIO.output(StatusPin, GPIO.LOW)
 
 def destroy():
         GPIO.output(LedPin, GPIO.LOW)
         GPIO.cleanup()
 
 while True: 
-#	GPIO.setmode(GPIO.BCM)
 	inputValue = GPIO.input(18)
 	if(inputValue == False):
 		print("Bottone premuto")
 		blink()
-#		destroy()
- 
-#if __name__ == '__main__':
-#	try:
-#		blink()
-#	except KeyboardInterrupt:
-#		destroy()
 
 
 
