@@ -1,4 +1,5 @@
 #!/bin/python
+import subprocess
 import RPi.GPIO as GPIO
 import time
 import os
@@ -27,6 +28,9 @@ def destroy():
         GPIO.output(LedPin, GPIO.LOW)
         GPIO.cleanup()
 
+#def reset():
+#	subprocess.call("sudo python ~/usbreset1/reset.py 046d:081d", shell=True)
+
 while True: 
 	GPIO.setmode(GPIO.BCM)
 	inputValue = GPIO.input(18)
@@ -35,6 +39,8 @@ while True:
 		os.system("sh /home/pi/Desktop/camera//video.sh")
 		blink()
 #		destroy()
+		subprocess.call("sudo python ~/usbreset1/reset.py 046d:081d", shell=True)
+
 	time.sleep(0.3)
 
  
