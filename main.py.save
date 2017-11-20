@@ -16,10 +16,8 @@ GPIO.output(LedPin, GPIO.LOW)
 GPIO.setup(StatusPin, GPIO.OUT)
 GPIO.output(StatusPin, GPIO.HIGH)
 GPIO.setup(18,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-Control = 0
 
 def inCaricamento():
-	global Control 
 	if(Control == 1):
 		print("Sto caricando")
         	t_end = time.time() + 20
@@ -29,16 +27,14 @@ def inCaricamento():
                         GPIO.output(LedPin, GPIO.HIGH)
                         time.sleep(0.3)
 			GPIO.output(LedPin, GPIO.LOW)
-			GPIO.output(StatusPin, GPIO.LOW)
+			GPIO.output(StatusPin, GPIO.HIGH)
 		print("Pronto a registrare")
-		GPIO.output(StatusPin, GPIO.HIGH)
 	
 
 def inRegistrazione():
-        t_end = time.time() + 19
+        t_end = time.time() + 20
 	GPIO.output(StatusPin, GPIO.LOW)
         while time.time() < t_end:
-		global Control
 		if (Control == 1): 
                         GPIO.output(LedPinPulsazione, GPIO.LOW)
                         time.sleep(0.5)
@@ -54,35 +50,32 @@ def destroy():
 
 
 def partiRegistrazione():
-	global Control
-        if(Control == 0):
-	        while True:
-			GPIO.setmode(GPIO.BCM)
-      	        	inputValue = GPIO.input(18)
-			if(inputValue == False):
+        while True:
+		if(Control == 0):
+                	GPIO.setmode(GPIO.BCM)
+                	inputValue = GPIO.input(18)
+                	if(inputValue == False):
 				subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
-                       	 	print("Bottone premuto Inizio a registrare")
-                       	 	os.system("sh /home/pi/Desktop/camera/video.sh")
-                       	 	subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
+                        	print("Bottone premuto Inizio a registrare")
+                        	os.system("sh /home/pi/Desktop/camera/video.sh")
+                        	subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
 				Control = 1
 				inCaricamento()	
                 	time.sleep(1)
                 
 def partiCaricamento():	
-	global Control
-	if (Control == 0):
-		while True:
+	while True:
+		if (Control == 0):
 			inputValue = GPIO.input(18)
                 	if(inputValue == False):
 				Control = 1
 				inRegistrazione() #errore?
 				
 if __name__ == '__main__':
-       # Control = 0    
-	try:
-		Thread(target = partiCaricamento).start()
-		Thread(target = partiRegistrazione).start()
-	except KeyboardInterrupt:
+	        Control = 0    
+		try:
+			Thread(target = partiCaricamento).start()				Thread(target = partiRegistrazione).start()
+			except KeyboardInterrupt:
 		try:
 			sys.exit(0)
 		except SystemExit:
