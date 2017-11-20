@@ -19,8 +19,7 @@ GPIO.setup(18,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
 
 def inCaricamento():
-	print("Sto caricando")
-        t_end = time.time() + 20
+        t_end = time.time() + 15
         while time.time() < t_end:
                         GPIO.output(LedPin, GPIO.LOW)
                         time.sleep(0.3)
@@ -28,11 +27,10 @@ def inCaricamento():
                         time.sleep(0.3)
 			GPIO.output(LedPin, GPIO.LOW)
 	GPIO.output(StatusPin, GPIO.HIGH)
-	print("Pronto a registrare")
 	
 
 def inRegistrazione():
-        t_end = time.time() + 20
+        t_end = time.time() + 15
 	GPIO.output(StatusPin, GPIO.LOW)
         while time.time() < t_end:
                         GPIO.output(LedPinPulsazione, GPIO.LOW)
@@ -40,7 +38,6 @@ def inRegistrazione():
                         GPIO.output(LedPinPulsazione, GPIO.HIGH)
                         time.sleep(0.5)
 	GPIO.output(LedPinPulsazione, GPIO.LOW)
-	print("registrazione finita")
 	
 
 def destroy():
@@ -56,15 +53,18 @@ def partiRegistrazione():
 			subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
                         print("Bottone premuto Inizio a registrare")
                         os.system("sh /home/pi/Desktop/camera/video.sh")
+                        inRegistrazione()
                         subprocess.call("sudo python /home/pi/Desktop/camera/usbreset1/reset.py 046d:081d", shell=True)
-			inCaricamento()	
-                time.sleep(1)
+				
+                time.sleep(0.3)
                 
 def partiCaricamento():
         while True:
                 inputValue = GPIO.input(18)
                 if(inputValue == False):
-                       	inRegistrazione() #errore?
+                        print("video finito")
+			print(Controller)
+			inCaricamento()
 
 if __name__ == '__main__':
         try:
